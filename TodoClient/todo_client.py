@@ -1,3 +1,5 @@
+import httpx
+
 class TodoClient:
     def __init__(self):
         self.client = httpx.Client(base_url="https://jsonplaceholder.typicode.com",headers={"name":"Cypher"}, timeout=10)
@@ -18,12 +20,10 @@ class TodoClient:
             return None
     
     def get_todo(self, todo_id):
-        _request = self._request("GET", f"/todos/{todo_id}")
-        if _request is None:
+        response = self._request("GET", f"/todos/{todo_id}")
+        if response is None:
             return None
-        else:
-            print(_request.status_code)
-            print(_request.json())
+        return response.json()
 
     def list_todos(self, user_id=None):
         if user_id:
